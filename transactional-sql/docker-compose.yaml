@@ -9,7 +9,8 @@ services:
     ports:
       - "8888:8888"
     volumes:
-      - ./tutorial.ipynb:/home/jovyan/tutorial.ipynb
+      - ./transactional-sql-tutorial-clean.ipynb:/home/jovyan/transactional-sql-tutorial-clean.ipynb
+      - ./transactional-sql-tutorial-executed.ipynb:/home/jovyan/transactional-sql-tutorial-executed.ipynb
       - ./postgresql_db.sql:/docker-entrypoint-initdb.d/postgresql_db.sql
       - ./mysql_db.sql:/docker-entrypoint-initdb.d/mysql_db.sql
     environment:
