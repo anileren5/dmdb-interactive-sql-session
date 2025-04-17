@@ -1,0 +1,4 @@
+jupyter
+notebook
+tabulate>=0.8.10
+mysql-connector-python==8.0.28  

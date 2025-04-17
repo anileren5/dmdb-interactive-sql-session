@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jupyter_notebook
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./tutorial.ipynb:/home/jovyan/tutorial.ipynb
+      - ./mysql_db.sql:/docker-entrypoint-initdb.d/mysql_db.sql
+    environment:
+      JUPYTER_TOKEN: ''
+    depends_on:
+      - mysql_db
+    networks:
+      - app-network
+
+  mysql_db:
+    image: mysql:latest
+    container_name: mysql_db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: webshop_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql_db.sql:/docker-entrypoint-initdb.d/mysql_db.sql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local
