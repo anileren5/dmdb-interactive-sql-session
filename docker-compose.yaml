@@ -11,7 +11,8 @@ services:
     volumes:
       - ./tutorials:/home/jovyan/tutorials
       - ./scripts/postgresql_db.sql:/docker-entrypoint-initdb.d/postgresql_db.sql
-      - ./scripts/mysql_db.sql:/docker-entrypoint-initdb.d/mysql_db.sql
+      - ./scripts/mysql_db.sql:/docker-entrypoint-initdb.d/01_mysql_db.sql
+      - ./scripts/load_data.sql:/docker-entrypoint-initdb.d/02_load_data.sql
     environment:
       JUPYTER_TOKEN: ''
     depends_on:
@@ -47,7 +48,9 @@ services:
       MYSQL_PASSWORD: user_password
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./scripts/mysql_db.sql:/docker-entrypoint-initdb.d/mysql_db.sql
+      - ./tpch_data:/var/lib/mysql-files
+      - ./scripts/mysql_db.sql:/docker-entrypoint-initdb.d/01_mysql_db.sql
+      - ./scripts/load_data.sql:/docker-entrypoint-initdb.d/02_load_data.sql
     networks:
       - app-network
 
