@@ -18,6 +18,7 @@ services:
     depends_on:
       - postgres_db
       - mysql_db
+      - mysql_db_ddl
     networks:
       - app-network
 
@@ -51,6 +52,19 @@ services:
       - ./tpch_data:/var/lib/mysql-files
       - ./scripts/mysql_db.sql:/docker-entrypoint-initdb.d/01_mysql_db.sql
       - ./scripts/load_data.sql:/docker-entrypoint-initdb.d/02_load_data.sql
+    networks:
+      - app-network
+
+  mysql_db_ddl:
+    image: mysql:latest
+    container_name: mysql_db_ddl
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: webshop_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user_password
     networks:
       - app-network
 
