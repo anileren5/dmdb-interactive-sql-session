@@ -1,6 +1,5 @@
 # DMDB - Interactive SQL Session 2025
 
-<<<<<<< HEAD
 ## Prerequisites  
 Ensure you have the following installed:  
 - Docker  
@@ -53,4 +52,3 @@ You can post your questions or anything else related to the tutorials on Moodle.
 
   when you're done.
 - We're planning to move everything to a unified Docker setup, but the teaching material for each section will still be kept in separate Jupyter notebook files.
->>>>>>> main
