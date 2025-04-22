@@ -4,20 +4,21 @@ services:
   jupyter:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: jupyter-dockerfile
     container_name: jupyter_notebook
     ports:
       - "8888:8888"
     volumes:
-      - ./transactional-sql-tutorial-clean.ipynb:/home/jovyan/transactional-sql-tutorial-clean.ipynb
-      - ./transactional-sql-tutorial-executed.ipynb:/home/jovyan/transactional-sql-tutorial-executed.ipynb
-      - ./postgresql_db.sql:/docker-entrypoint-initdb.d/postgresql_db.sql
-      - ./mysql_db.sql:/docker-entrypoint-initdb.d/mysql_db.sql
+      - ./tutorials:/home/jovyan/tutorials
+      - ./scripts/postgresql_db.sql:/docker-entrypoint-initdb.d/postgresql_db.sql
+      - ./scripts/mysql_db.sql:/docker-entrypoint-initdb.d/01_mysql_db.sql
+      - ./scripts/load_data.sql:/docker-entrypoint-initdb.d/02_load_data.sql
     environment:
       JUPYTER_TOKEN: ''
     depends_on:
       - postgres_db
       - mysql_db
+      - mysql_db_ddl
     networks:
       - app-network
 
@@ -32,7 +33,7 @@ services:
       POSTGRES_DB: banking_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./postgresql_db.sql:/docker-entrypoint-initdb.d/postgresql_db.sql
+      - ./scripts/postgresql_db.sql:/docker-entrypoint-initdb.d/postgresql_db.sql
     networks:
       - app-network
 
@@ -48,7 +49,22 @@ services:
       MYSQL_PASSWORD: user_password
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./mysql_db.sql:/docker-entrypoint-initdb.d/mysql_db.sql
+      - ./tpch_data:/var/lib/mysql-files
+      - ./scripts/mysql_db.sql:/docker-entrypoint-initdb.d/01_mysql_db.sql
+      - ./scripts/load_data.sql:/docker-entrypoint-initdb.d/02_load_data.sql
+    networks:
+      - app-network
+
+  mysql_db_ddl:
+    image: mysql:latest
+    container_name: mysql_db_ddl
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: webshop_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user_password
     networks:
       - app-network
 
