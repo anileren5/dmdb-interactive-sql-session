@@ -1,5 +1,4 @@
 jupyter
 notebook
-psycopg2-binary==2.9.9
+duckdb>=1.1.0
 tabulate>=0.8.10
-mysql-connector-python==8.0.28  
