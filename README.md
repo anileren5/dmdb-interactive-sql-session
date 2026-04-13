@@ -20,6 +20,10 @@ To launch the environment, run:
 ```bash
 docker-compose up -d
 ```
+or
+```bash
+docker compose up -d
+```
 
 Then open [http://localhost:8888](http://localhost:8888) in your browser to access the Jupyter server.
 
@@ -27,6 +31,10 @@ Then open [http://localhost:8888](http://localhost:8888) in your browser to acce
 To stop the environment:
 ```bash
 docker-compose down
+```
+or
+```bash
+docker compose down
 ```
 
 ## Questions or Feedback
